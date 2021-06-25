@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Adresatas</title>
+</head>
+<body>
+	<div>
+     <div>
+      <h2>Adresatai</h2>
+       <a href="create.php">Iterpiamas naujas adresatas</a>
+     </div>
+	 
+    <?php
+		require_once "server.php";
+		$sql = "SELECT * FROM adresatas";
+		if($result = $mysqli->query($sql)){
+			if($result->num_rows > 0){
+				echo "<table>";
+				echo "<thead>";
+					echo "<tr>";
+						echo "<th>#</th>";
+						echo "<th>Vardas</th>";
+						echo "<th>Pavarde</th>";
+						echo "<th>Telefono numeris</th>";
+						echo "<th></th>";
+					echo "</tr>";
+				echo "</thead>";
+				echo "<tbody>";
+					while($row = $result->fetch_array()){
+					echo "<tr>";
+						echo "<td>" . $row['id'] . "</td>";
+						echo "<td>" . $row['vardas'] . "</td>";
+						echo "<td>" . $row['pavarde'] . "</td>";
+						echo "<td>" . $row['numeris'] . "</td>";
+						echo "<td>";
+							echo "<a href='read.php?id=". $row['id'] ."' title='View Record' data-toggle='tooltip'><span>    Perziurejimas    </span></a>";
+							echo "<a href='update.php?id=". $row['id'] ."' title='Update Record' data-toggle='tooltip'><span>    Atnaujinimas    </span></a>";
+							echo "<a href='delete.php?id=". $row['id'] ."' title='Delete Record' data-toggle='tooltip'><span>  Istrinimas    </span></a>";
+						echo "</td>";
+					echo "</tr>";
+					
+														}
+           
+				echo "</tbody>";                            
+				echo "</table>";
+				$result->free();
+				
+									} 
+		
+			else{
+                        echo "<p class='lead'><em>Lentele yra tuscia.</em></p>";
+				}
+				
+											} 
+											
+		else{
+                    echo "Klaida: SQL sujungime. " . $mysqli->error;
+            }
+            $mysqli->close();
+     ?>
+    </div>
+</body>
+</html>
