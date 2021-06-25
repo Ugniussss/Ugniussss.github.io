@@ -2,7 +2,7 @@
 
 require "autoload.php";
 
-$stmt = $connection->prepare("SELECT * FROM ord");
+$stmt = $connection->prepare("SELECT * FROM ord ORDER BY id DESC");
 $stmt->execute();
 $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $length = 6;
@@ -37,6 +37,7 @@ $first = "U";
             <?php foreach ($orders as $order): ?>
                 <?php $id = str_pad($order['id'], $length , "0", STR_PAD_LEFT)?>
                 <?php $id_second = str_pad($order['id'] - 1, $length , "0", STR_PAD_LEFT)?>
+                <?php $temp = 0; ?>
                 <tr>
                     <td><?=str_pad( "U" . $id, $length , "0", STR_PAD_LEFT)?></td>
                     <td><?=$order['order_date']?></td>
